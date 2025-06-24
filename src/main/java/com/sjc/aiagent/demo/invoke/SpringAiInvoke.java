@@ -1,6 +1,7 @@
 package com.sjc.aiagent.demo.invoke;
 
 import jakarta.annotation.Resource;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.boot.CommandLineRunner;
@@ -18,6 +19,7 @@ public class SpringAiInvoke implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
         AssistantMessage assistantMessage = dashscopeChatModel.call(new Prompt("今天星期几"))
                 .getResult()
                 .getOutput();
