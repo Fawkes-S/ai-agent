@@ -10,7 +10,7 @@ public class langChainAiInvoke {
                 .apiKey(TestApiKey.API_KEY)
                 .modelName("qwen-max")
                 .build();
-        String amswer = chatLanguageModel.chat("中国今天星期几");
-        System.out.println(amswer);
+        String answer = chatLanguageModel.chat("中国今天星期几");
+        System.out.println(answer);
     }
 }

@@ -1,7 +1,9 @@
 package com.sjc.aiagent.app;
 
+import com.sjc.aiagent.advisor.BannedAdvisor;
 import com.sjc.aiagent.advisor.MyLoggerAdvisor;
 import com.sjc.aiagent.advisor.ReReadingAdvisor;
+import com.sjc.aiagent.chatmemory.FileBasedChatMemory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -31,14 +33,19 @@ public class LoveApp {
      * @param dashscopeChatModel
      */
     public LoveApp(ChatModel dashscopeChatModel) {
-        ChatMemory chatMemory = new InMemoryChatMemory();
+        // 基于文件的对话记忆，之前是自带的基于内存的
+        String fileDir = System.getProperty("user.dir") +"/tmp/chat-memory";
+        ChatMemory chatMemory = new FileBasedChatMemory(fileDir);
+        //ChatMemory chatMemory = new InMemoryChatMemory();
+
         chatClient = ChatClient.builder(dashscopeChatModel)
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
                         new MessageChatMemoryAdvisor(chatMemory)
                         // 自定义日志拦截器
                         ,new MyLoggerAdvisor()
-                        // 自定义推理增强拦截器
+                        ,new BannedAdvisor()
+                        // 自定义推理增强拦截器(改写一遍prompt)
                         //,new ReReadingAdvisor()
                 )
                 .build();
@@ -63,6 +70,7 @@ public class LoveApp {
         return content;
     }
 
+    // 虚拟对象
     record LoveReport(String title, List<String> suggestion){}
 
     /**
