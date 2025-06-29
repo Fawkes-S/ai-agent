@@ -1,8 +1,13 @@
 spring:
   application:
-    name: ai-agent
-#  profiles:
-#    active: local
+    name: yu-ai-agent
+  profiles:
+    active: local
+  # 临时注释掉，便于大家开发调试和部署（实际填写 PgVector 数据库信息）
+  #  datasource:
+  #    url: xxx
+  #    username: root
+  #    password: 123456
   ai:
     dashscope:
       api-key: sk-248f06898dab4043a5ff109fd5ccaec7
